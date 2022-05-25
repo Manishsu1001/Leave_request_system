@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Employe</title>
+    <style>
+        .main {
+            margin: 30px;
+            border: 2px solid black;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100px;
+            text-align: center;
+            width: 80vw;
+            min-width: 300px;
+            justify-content: center;
+            margin: auto;
+        }
+
+        .each {
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        ADMIN LOGIN
+    </h1>
+    <section class='main'>
+        <h1>
+            Your Leaves and responses
+        </h1>
+        {%for each in unattended%}
+        <div class="each">
+            {{each.fromdate}}
+            {{each.todate}}
+            {{each.desc}}
+            <form action="./action" method="post">
+                {%csrf_token%}
+                <input type="hidden" name="which" value="{{each.id}}">
+                <input type="hidden" name="what" value="y">
+                <input type="submit" value="Accept">
+            </form>
+            <form action="./action" method="post">
+                {%csrf_token%}
+                <input type="hidden" name="which" value="{{each.id}}">
+                <input type="hidden" name="what" value="n">
+                <input type="submit" value="Decline">
+            </form>
+        </div>
+        {%endfor%}
+    </section>
+    <section class='main'>
+        <h1>
+            Past Leaves
+        </h1>
+        {%for each in attended%}
+        <div class="each">
+            {{each.fromdate}}
+            {{each.todate}}
+            {{each.desc}}
+
+            {%if each.status == 'y'%}
+            Accepted
+            {%else%}
+            Declined
+            {%endif%}
+
+        </div>
+        {%endfor%}
+    </section>
+</body>
+
+</html>

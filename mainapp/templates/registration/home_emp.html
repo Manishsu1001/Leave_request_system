@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Employe</title>
+    <style>
+        .main {
+            margin: 30px;
+            border: 2px solid black;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100px;
+            text-align: center;
+            width: 80vw;
+            min-width: 300px;
+            justify-content: center;
+            margin: auto;
+        }
+
+        .each {
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>EMPLOYEE LOGIN</h1>
+    <section class="main">
+        <h1>
+            Request a leave
+        </h1>
+        <form action="./create-request" method='POST'>
+            {%csrf_token%}
+            From: <input type="date" name="from"> <br><br>
+            To: <input type="date" name="to"> <br><br>
+            Purpose: <Textarea name='description'></Textarea><br><br>
+            <input type="submit"><br><br>
+        </form>
+    </section>
+    <section class='main'>
+        <h1>
+            Your Leaves and responses
+        </h1>
+        {%for each in leaves%}
+        <div class="each">
+            {{each.fromdate}}
+            {{each.todate}}
+            {{each.desc}}
+            {%if each.status == 'y'%}
+            Accepted
+            {%else%}
+            Declined
+            {%endif%}
+        </div>
+        {%endfor%}
+    </section>
+</body>
+
+</html>
